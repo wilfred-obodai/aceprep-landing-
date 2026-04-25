@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AcePrep — AI-Powered Exam Prep for Ghana</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0D1F3C;
+    --navy-light: #1A3560;
+    --gold: #D4A017;
+    --gold-light: #F0C040;
+    --cream: #FAF8F3;
+    --white: #FFFFFF;
+    --text-dark: #0D1F3C;
+    --text-mid: #3D5278;
+    --text-muted: #6B82A8;
+    --border: rgba(13,31,60,0.10);
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--navy); letter-spacing: -0.5px; }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--navy); }
+  .btn-nav { background: var(--navy); color: var(--white); padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; transition: background 0.2s; border: none; cursor: pointer; }
+  .btn-nav:hover { background: var(--navy-light); }
+  .hero { max-width: 1100px; margin: 0 auto; padding: 100px 2rem 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: #EAF0F8; color: var(--navy); font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 100px; margin-bottom: 1.5rem; border: 1px solid rgba(13,31,60,0.15); }
+  .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.85); } }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(36px, 5vw, 54px); font-weight: 600; line-height: 1.1; color: var(--navy); margin-bottom: 1.25rem; letter-spacing: -1px; }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero p { font-size: 17px; color: var(--text-mid); line-height: 1.7; margin-bottom: 2rem; max-width: 480px; }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { background: var(--navy); color: var(--white); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none; transition: transform 0.15s, background 0.2s; border: none; cursor: pointer; display: inline-block; }
+  .btn-primary:hover { background: var(--navy-light); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--navy); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none; border: 1.5px solid var(--navy); transition: background 0.15s; display: inline-block; }
+  .btn-secondary:hover { background: rgba(13,31,60,0.06); }
+  .hero-visual { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.5rem; box-shadow: 0 20px 60px rgba(13,31,60,0.10); }
+  .visual-header { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .visual-dots { display: flex; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; } .dot-y { background: #FEBC2E; } .dot-g { background: #28C840; }
+  .visual-title { font-size: 12px; color: var(--text-muted); margin-left: 8px; font-weight: 500; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat-card { background: var(--cream); border-radius: 10px; padding: 14px; border: 1px solid var(--border); }
+  .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .stat-val { font-size: 22px; font-family: 'Fraunces', serif; font-weight: 600; color: var(--navy); }
+  .stat-val.gold { color: var(--gold); }
+  .ai-bubble { background: #EAF0F8; border-radius: 10px; padding: 14px; border: 1px solid rgba(13,31,60,0.1); margin-top: 4px; }
+  .ai-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .ai-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+  .ai-text { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+  .progress-row { margin-top: 12px; }
+  .prog-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .prog-bar { height: 6px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 100px; background: var(--navy); }
+  .prog-fill.gold { background: var(--gold); }
+  .trust { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--white); padding: 1.5rem 2rem; text-align: center; }
+  .trust p { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+  .trust-items { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; align-items: center; }
+  .trust-item { font-family: 'Fraunces', serif; font-size: 15px; color: var(--text-muted); }
+  .section { max-width: 1100px; margin: 0 auto; padding: 80px 2rem; }
+  .section-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); margin-bottom: 1rem; }
+  .section-title { font-family: 'Fraunces', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 600; color: var(--navy); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 1rem; }
+  .section-sub { font-size: 17px; color: var(--text-mid); max-width: 560px; line-height: 1.7; margin-bottom: 3rem; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .feat-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 1.75rem; transition: transform 0.2s, box-shadow 0.2s; }
+  .feat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13,31,60,0.08); }
+  .feat-icon { width: 44px; height: 44px; background: #EAF0F8; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 20px; }
+  .feat-title { font-size: 16px; font-weight: 500; color: var(--navy); margin-bottom: 8px; }
+  .feat-desc { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+  .who-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 2rem; }
+  .who-card.navy { background: var(--navy); border-color: var(--navy); }
+  .who-card.navy .who-title { color: var(--white); }
+  .who-card.navy .who-desc { color: rgba(255,255,255,0.65); }
+  .who-card.navy .who-list li { color: rgba(255,255,255,0.8); }
+  .who-card.navy .who-list li::before { color: var(--gold-light); }
+  .who-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 100px; margin-bottom: 1rem; background: #EAF0F8; color: var(--navy); }
+  .who-badge.light { background: rgba(240,192,64,0.2); color: var(--gold-light); }
+  .who-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+  .who-desc { font-size: 14px; color: var(--text-mid); margin-bottom: 1.25rem; line-height: 1.6; }
+  .who-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .who-list li { font-size: 14px; color: var(--text-mid); display: flex; gap: 8px; align-items: flex-start; }
+  .who-list li::before { content: "✓"; font-weight: 600; color: var(--navy); flex-shrink: 0; }
+  .contact-section { background: var(--navy); padding: 80px 2rem; }
+  .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .contact-inner .section-label { color: var(--gold-light); }
+  .contact-inner .section-title { color: var(--white); margin-bottom: 1rem; }
+  .contact-inner > p { color: rgba(255,255,255,0.65); font-size: 17px; margin-bottom: 2.5rem; line-height: 1.7; }
+  .contact-form { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg); padding: 2rem; text-align: left; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-group label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group select, .form-group textarea { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--white); outline: none; transition: border-color 0.2s; width: 100%; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group select option { background: var(--navy); color: var(--white); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .btn-submit { width: 100%; background: var(--gold); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; padding: 14px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 4px; }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .form-note { text-align: center; font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 1rem; }
+  footer { background: #080F1E; color: rgba(255,255,255,0.45); text-align: center; padding: 2rem; font-size: 13px; }
+  footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 3rem; padding: 60px 1.25rem 60px; }
+    .hero-visual { display: none; }
+    .who-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fadeUp 0.6s ease both; }
+  .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Ace<span>Prep</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#for-who">Who It's For</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="btn-nav">Request a Demo</a>
+  </div>
+</nav>
+
+<section>
+  <div class="hero">
+    <div>
+      <div class="hero-badge fade-up">
+        <div class="badge-dot"></div>
+        Now enrolling pilot schools
+      </div>
+      <h1 class="fade-up delay-1">Ghana's smartest<br/><em>exam prep</em><br/>platform</h1>
+      <p class="fade-up delay-2">AcePrep helps JHS and SHS students in Ghana prepare for BECE and WASSCE with AI-powered tutoring, adaptive practice, and real-time school performance tracking.</p>
+      <div class="hero-ctas fade-up delay-3">
+        <a href="#contact" class="btn-primary">Request a Demo</a>
+        <a href="#contact" class="btn-secondary">Partner With Us</a>
+      </div>
+    </div>
+    <div class="hero-visual fade-up delay-4">
+      <div class="visual-header">
+        <div class="visual-dots">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        </div>
+        <span class="visual-title">School Admin Dashboard</span>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-label">Students enrolled</div><div class="stat-val">247</div></div>
+        <div class="stat-card"><div class="stat-label">Avg. score</div><div class="stat-val gold">78%</div></div>
+      </div>
+      <div class="progress-row">
+        <div class="prog-label"><span>Core Mathematics</span><span>82%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:82%"></div></div>
+      </div>
+      <div class="progress-row" style="margin-top:10px">
+        <div class="prog-label"><span>English Language</span><span>74%</span></div>
+        <div class="prog-bar"><div class="prog-fill gold" style="width:74%"></div></div>
+      </div>
+      <div class="ai-bubble" style="margin-top:14px">
+        <div class="ai-label"><div class="ai-dot"></div> AI Tutor — responding now</div>
+        <div class="ai-text">"The gradient of a line through (2, 5) and (6, 13) is calculated as rise over run — that's (13−5) ÷ (6−2) = 2. Let me show you why this works..."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <p>Built with</p>
+  <div class="trust-items">
+    <span class="trust-item">React</span>
+    <span class="trust-item">Node.js</span>
+    <span class="trust-item">PostgreSQL</span>
+    <span class="trust-item">Claude AI</span>
+    <span class="trust-item">Android</span>
+  </div>
+</div>
+
+<section id="features">
+  <div class="section">
+    <div class="section-label">What AcePrep does</div>
+    <h2 class="section-title">Everything a student needs.<br/>Everything a school wants.</h2>
+    <p class="section-sub">One platform that brings AI tutoring, exam practice, and school analytics together — built specifically for the Ghanaian curriculum.</p>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon">🤖</div><div class="feat-title">AI Tutor</div><div class="feat-desc">Students get instant explanations on any topic — not just answers, but real understanding. Powered by Claude AI, available 24/7.</div></div>
+      <div class="feat-card"><div class="feat-icon">📝</div><div class="feat-title">BECE & WASSCE Practice</div><div class="feat-desc">Adaptive exam questions across all subjects, structured around the actual syllabus. Students practice like it's the real thing.</div></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">School Admin Dashboard</div><div class="feat-desc">Monitor every student's performance in real time. Generate branded grade reports and track school-wide academic progress.</div></div>
+      <div class="feat-card"><div class="feat-icon">🏫</div><div class="feat-title">School Onboarding</div><div class="feat-desc">Schools get a unique code. Students enroll in seconds. Independent students can also access the platform without a school.</div></div>
+      <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-title">Android App</div><div class="feat-desc">A full native Android app in development — so students can prep on their phones, even with limited data.</div></div>
+      <div class="feat-card"><div class="feat-icon">📄</div><div class="feat-title">Branded Grade Reports</div><div class="feat-desc">Schools receive downloadable, school-branded grade reports for every student — ready to share with parents and administration.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="for-who" style="background: var(--white); padding: 1px 0;">
+  <div class="section">
+    <div class="section-label">Who it's for</div>
+    <h2 class="section-title">Built for schools.<br/>Loved by students.</h2>
+    <div class="who-grid">
+      <div class="who-card">
+        <span class="who-badge">For Schools</span>
+        <div class="who-title">School Administrators</div>
+        <div class="who-desc">Give your students a real competitive edge — and get the data to prove it's working.</div>
+        <ul class="who-list">
+          <li>Monitor all students from one dashboard</li>
+          <li>Branded reports for parents and management</li>
+          <li>Track performance by subject and student</li>
+          <li>Free pilot for early partner schools</li>
+        </ul>
+      </div>
+      <div class="who-card navy">
+        <span class="who-badge light">For Investors</span>
+        <div class="who-title">Sponsors & Investors</div>
+        <div class="who-desc">Back a product that's already built — not just a pitch deck. Real code, real students, real impact.</div>
+        <ul class="who-list">
+          <li>Targeting millions of Ghanaian exam students</li>
+          <li>Full-stack platform: web + Android</li>
+          <li>Built by a KNUST CS student with 2+ years freelance experience</li>
+          <li>Scalable across all West African curricula</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="contact-inner">
+    <div class="section-label">Get in touch</div>
+    <h2 class="section-title">Let's work together</h2>
+    <p>Whether you're a school ready to pilot, an investor looking to back African EdTech, or someone who wants to see AcePrep grow — reach out below.</p>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" id="fname" placeholder="Kwame Mensah" />
+        </div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="femail" placeholder="you@example.com" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>I am a...</label>
+        <select id="frole">
+          <option value="">Select your role</option>
+          <option>School Administrator / Head</option>
+          <option>Investor / Sponsor</option>
+          <option>EdTech Partner</option>
+          <option>Student / Parent</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="fmsg" placeholder="Tell us about your school, your interest, or any questions you have..."></textarea>
+      </div>
+      <button class="btn-submit" onclick="handleSubmit()">Send Message →</button>
+      <p class="form-note">Or email directly: <a href="mailto:wobodai5@gmail.com" style="color: rgba(255,255,255,0.6);">wobodai5@gmail.com</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 AcePrep · Built in Ghana 🇬🇭 · <a href="mailto:wobodai5@gmail.com">wobodai5@gmail.com</a></p>
+</footer>
+
+<script>
+function handleSubmit() {
+  const name = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const role = document.getElementById('frole').value;
+  const msg = document.getElementById('fmsg').value.trim();
+  if (!name || !email || !msg) {
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  const subject = encodeURIComponent('AcePrep Inquiry — ' + role);
+  const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nRole: ' + role + '\n\nMessage:\n' + msg);
+  window.location.href = 'mailto:wobodai5@gmail.com?subject=' + subject + '&body=' + body;
+  const btn = document.querySelector('.btn-submit');
+  btn.textContent = 'Opening your email app...';
+  btn.style.background = '#28C840';
+  btn.style.color = '#fff';
+}
+</script>
+</body>
+</html>
